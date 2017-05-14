@@ -38,7 +38,7 @@ class App extends Component {
   updateResults(){
     let { day, month, year } = this.state
     helpers.getRooms({
-        date: new Date(`${year}.${month}.${day}`).getTime() / 1000
+        date: new Date(`${year}/${month}/${day}`).getTime() / 1000
     })
     .then( results => {
       this.setState({results})
