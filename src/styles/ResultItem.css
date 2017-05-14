@@ -1,0 +1,87 @@
+.app__result-item{
+  width:100%;
+  min-height:170px;
+  background-color: white;
+  margin-top: 25px;
+  padding: 10px;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0px 13px 5px -9px rgba(0,0,0,0.19);
+-moz-box-shadow: 0px 13px 5px -9px rgba(0,0,0,0.19);
+box-shadow: 0px 13px 5px -9px rgba(0,0,0,0.19);
+}
+
+.app__time-labels{
+  position: relative;
+  box-sizing: border-box;
+}
+
+.app__time-labels span {
+  display: inline-block;
+  font-size: 14px;
+  width: calc(100% / 20);
+  margin-right: calc(100% / 34.3);
+}
+.app__time-labels span:last-child {
+  margin-right: 0px
+}
+.app__time-canvas {
+  width: calc(93.2%);
+  margin-left: calc(2%);
+}
+.app__time-bar {
+  width: 500px;
+  margin-top:10px;
+}
+.app__result-title,
+.app__time-bar {
+  display: inline-block;
+}
+.app__result-title {
+  border: 2px solid var(--orange);
+  color: var(--orange);
+  padding: 10px;
+  transform: translateY(-10px);
+  margin-right: 20px;
+  border-radius: 10px;
+}
+.app__result-title h1{
+  font-size: 20px;
+}
+.app__result-description {
+  line-height: 1.2em
+}
+.app__result-description table {
+  width: 100%;
+  box-sizing: border-box;
+}
+.app__result-description thead td{
+  background-color: var(--bluedark);
+  box-sizing: border-box;
+  color: white;
+  padding: 5px 10px;
+  text-align: center
+}
+.app__result-description tbody td{
+  padding: 5px;
+  text-align: center;
+}
+.app__result-description tbody li{
+  text-align: center;
+}
+
+.app__result-see-more,
+.app__result-booking {
+  border:0px;
+  color: white;
+  font-size: 16px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+.app__result-see-more {
+  background-color: var(--orange);
+}
+.app__result-booking {
+  background-color: var(--bluedark);
+}
