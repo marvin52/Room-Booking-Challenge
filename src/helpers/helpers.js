@@ -98,6 +98,21 @@ class Helpers extends EventEmitter {
  }
 
 
+  debounce(fn, time) {
+    let flag = '';
+
+    time = time || 300;
+
+    return function () {
+      const args = arguments;
+
+      clearTimeout(flag);
+
+      flag = setTimeout(() => {
+        fn.apply({}, args);
+      }, time);
+    };
+  }
 
 }
 
