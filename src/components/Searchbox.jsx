@@ -6,12 +6,27 @@ class Searchbox extends Component {
   constructor(){
     super();
   }
+
+
   prevDay(e){
     helpers.emit('prev-day')
   }
+
+
   nextDay(e){
     helpers.emit('next-day')
   }
+
+  onChangeRoomNameFilter(e){
+    helpers.emit('change-filter-room-name', e)
+  }
+
+
+  onChangeAvailableNowFilter(e){
+    helpers.emit('change-filter-available-now', e)
+  }
+
+
   render() {
     let {day, month, year} = this.props.states;
     return (
@@ -37,8 +52,15 @@ class Searchbox extends Component {
         </div>
         <div className="app__search-filters">
           <i className="fa fa-filter"></i> Filters:
-          <input placeholder="Room Name"/>
-          <label htmlFor="availableNow"><input type="checkbox" name="availableNow"/> Available Now </label>
+          <input className="app__name-filter" placeholder="Room Name" onChange={this.onChangeRoomNameFilter.bind(this)}/>
+          <label htmlFor="availableNow">
+            <input
+              className="app__available-filter"
+              type="checkbox"
+              name="availableNow"
+              onChange={this.onChangeAvailableNowFilter.bind(this)}/>
+            Available Now
+          </label>
         </div>
       </div>
     );

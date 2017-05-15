@@ -37,7 +37,6 @@ export default class CalendarHelper {
   }
 
   getPrevDay({ year, month, day }) {
-    console.log('getPrevDay')
     const prevMonthObj = this.getMonth(month === 0 ? year - 1 : year, month === 0 ? 11 : month - 1);
     let prevDay;
     if (day === 1) {

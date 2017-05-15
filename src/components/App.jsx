@@ -23,7 +23,9 @@ class App extends Component {
       month: d.getUTCMonth() + 1,
       year: d.getFullYear(),
       bookView: false,
-      bookInfo: {}
+      bookInfo: {},
+      roomNameFilter: false,
+      availableNowFilter: false
     }
     this.updateResults();
     this.bindEvents();
@@ -71,9 +73,47 @@ class App extends Component {
       this.setState({ bookView : true, bookInfo })
     })
 
+    helpers.on('change-filter-room-name', (e) => {
+      if(e.target.value.length === 0){
+        this.setState({roomNameFilter: false})
+      } else {
+        this.setState({roomNameFilter: e.target.value})
+      }
+    });
+
+    helpers.on('change-filter-available-now', (e) => {
+      this.setState({ availableNowFilter: e.target.checked})
+    });
   }
 
 
+  filters(results){
+    return results
+      .filter( item => {
+        if(this.state.roomNameFilter !== false)
+          return item.name.toLowerCase().indexOf(
+          this.state.roomNameFilter.toLowerCase()) !== -1
+        return true;
+      })
+      .filter(item => {
+        if(this.state.availableNowFilter !== false){
+          let d = new Date();
+          let hours = d.getHours();
+          let minutes = d.getMinutes();
+          if(hours >= 7 && hours <= 19 ){
+            let range = helpers.hourValues[hours] + ((minutes * 40) / 60);
+            return helpers.checkInterval({
+              avail: item.avail,
+              value: range
+            })
+          } else {
+            return false;
+          }
+        }
+        return true;
+      })
+
+  }
 
 
   render() {
@@ -84,7 +124,7 @@ class App extends Component {
         </div>
         <div className="app__container">
           <Searchbox states={this.state} />
-          <ResultList results={this.state.results} />
+          <ResultList results={this.filters(this.state.results)} />
           <div className={ this.state.bookView ?
             `app__booking-modal app__booking-modal--show`:
             `app__booking-modal`} >
