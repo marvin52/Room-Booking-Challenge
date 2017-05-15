@@ -35,6 +35,7 @@ class App extends Component {
 
   toggleBookView(){
     this.setState({bookView: !this.state.bookView})
+    helpers.emit('reset-state-booking-form')
   }
 
   updateResults(){
@@ -84,6 +85,10 @@ class App extends Component {
     helpers.on('change-filter-available-now', (e) => {
       this.setState({ availableNowFilter: e.target.checked})
     });
+
+    helpers.on('toggle-book-view', (e) => {
+      this.toggleBookView()
+    });
   }
 
 
@@ -131,7 +136,7 @@ class App extends Component {
             <div className="app__booking-modal-overlay"
               onClick={()=>this.toggleBookView()}></div>
             <div className="app__booking-modal-container">
-              <BookingForm config={this.state.bookInfo} />
+              <BookingForm config={this.state.bookInfo} app-config={this.state}/>
             </div>
           </div>
         </div>

@@ -44,6 +44,25 @@ class Helpers extends EventEmitter {
     })
   }
 
+  bookRoom(jsonInfo){
+    // /getrooms
+    return new Promise((complete, reject) => {
+      const req = new XMLHttpRequest();
+
+      req.open('POST', `${this.apiUrl}/sendpass`, true);
+
+      req.onload = () => {
+        complete(JSON.parse(req.response));
+      };
+
+      req.onerror = () => {
+        reject(Error(req.statusText));
+      };
+
+      req.send(JSON.stringify(jsonInfo));
+    })
+  }
+
 
   /*
  Check if the current time is between these intervals
@@ -53,13 +72,14 @@ class Helpers extends EventEmitter {
     "17:15 - 19:00"
   ]
  */
- checkInterval({avail, value}){
+ checkInterval({avail, value, draw = false}){
   if(typeof avail === 'object' && avail.length > 0){
     let avails = avail.map(item => {
       let t = item.split(' - ');
+      let valEnd = draw ? this.timeValues[t[1]] - 10 : this.timeValues[t[1]]
       return {
         start: this.timeValues[t[0]],
-        end: this.timeValues[t[1]]
+        end: valEnd
       }
     });
 
@@ -71,35 +91,45 @@ class Helpers extends EventEmitter {
   return false
  }
 
+  isAvailable({avail, start, end}){
+    if(!this.checkInterval({avail, value: start}))
+      return false
+
+    if(!this.checkInterval({avail, value: end}))
+      return false
+
+    let count = start;
+    while(count++ < end)
+      if(!this.checkInterval({avail, value: count}))
+        return false
+
+    return true
+  }
 
 
  rangeToTime(value){
-
-  let val = parseInt(value),
-  times = Object.keys(this.timeValues);
-
-  for( let index in times){
-    let i = parseInt(index);
-    if(val - this.timeValues[times[i]] > 0 &&
-       val - this.timeValues[times[i + 1]] <= 0){
-      return times[i]
-    }
-  }
+  let range = this.valueToRange(value);
+  for(let i in this.timeValues)
+    if(this.timeValues[i] === range)
+      return i
  }
 
  valueToRange(value){
-
-  let val = parseInt(value),
-  times = Object.keys(this.timeValues);
-
-  for( let index in times){
-    let i = parseInt(index);
-    if(val - this.timeValues[times[i]] > 0 &&
-       val - this.timeValues[times[i + 1]] <= 0){
-      return this.timeValues[times[i]]
-    }
-  }
+  let tempArr = [];
+  Object.keys(this.timeValues).forEach(i=>{
+    tempArr.push(this.timeValues[i])
+  });
+  return this.closest(tempArr, value)
  }
+
+
+  closest(arr, closestTo){
+    var closest = Math.max.apply(null, arr);
+    for(var i = 0; i < arr.length; i++){
+      if(arr[i] >= closestTo && arr[i] < closest) closest = arr[i];
+    }
+    return closest;
+  }
 
 
   debounce(fn, time) {
@@ -118,6 +148,14 @@ class Helpers extends EventEmitter {
     };
   }
 
+  isValidPhonenumber(value) {
+    return (/^\d{7,}$/).test(value.replace(/[\s()+\-\.]|ext/gi, ''));
+  }
+
+  validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
 }
 
 const helpers = new Helpers();

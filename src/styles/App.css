@@ -77,6 +77,21 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
   width: calc(100vw - 150px);
-  height: calc(100vh - 50px);
+  max-height: calc(100vh - 50px);
   background-color: white;
+}
+.app__half-width {
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+  padding: 5px 5px;
+  position: relative;
+  margin-bottom: 10px
+}
+.app__row {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px 5px;
+  position: relative;
 }

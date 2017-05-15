@@ -55,7 +55,8 @@ class Timebar extends Component {
 
         let isAvail = helpers.checkInterval({
           avail:this.props.avail,
-          value: i
+          value: i,
+          draw: true
         });
 
         if( start !== false && end !== false &&
@@ -79,7 +80,7 @@ class Timebar extends Component {
   }
 
   pickerPosition(value){
-    let time = helpers.rangeToTime(value);
+    let time = helpers.rangeToTime(helpers.valueToRange(value));
     return (( helpers.timeValues[time] * 93.2 ) / 590) + 2
   }
 
