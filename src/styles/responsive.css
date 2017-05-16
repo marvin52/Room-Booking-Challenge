@@ -1,0 +1,48 @@
+
+@media( max-width: 702px) {
+  .app__result-title {
+    display: block;
+    width: 100%;
+    border-radius: 0px !important;
+    box-sizing: border-box;
+    background-color: var(--orange);
+    color: white !important;
+    box-shadow: -10px 0px 0px var(--orange), 10px 0px 0px var(--orange)
+
+  }
+  .app__result-item .app__time-bar {
+    width: 100% !important;
+    margin-bottom: 15px;
+  }
+  .app__result-see-more,
+  .app__result-booking{
+    margin-top: 3px;
+  }
+  .app__booking-schedule-feedback {
+    font-size: 15px !important;
+    max-width: 180px
+  }
+  .app__booking-form-inputs.app__booking-fields,
+  .app__booking-form-inputs.app__booking-fields-participants,
+  .app__booking-validation--invalid{
+    display: block;
+    width: 100% !important;
+  }
+  .app__booking-event-title,
+  .app__booking-description
+  {
+    width: calc(100% - 15px) !important;
+  }
+  .app__booking-modal-container{
+    max-height: inherit !important
+  }
+  .app__search-controls h1 {
+    font-size:30px !important;
+  }
+  .app__search-controls button {
+    font-size: 20px !important;
+    height: 30px !important;
+    width: 30px !important;
+    line-height: 30px !important;
+  }
+}

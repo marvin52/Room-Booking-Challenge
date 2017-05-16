@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './../styles/reset.css';
 import './../styles/App.css';
+import './../styles/responsive.css';
 import helpers from './../helpers/helpers.js';
 import CalendarHelper from './../helpers/calendar.js';
 

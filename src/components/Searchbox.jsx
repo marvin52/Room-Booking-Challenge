@@ -46,9 +46,6 @@ class Searchbox extends Component {
             onClick={(e)=>this.nextDay(e)}>
             <i className="fa fa-angle-right"></i>
           </button>
-          <button className="app__btn app__btn-search app__btn-search--calendar">
-            <i className="fa fa-calendar"></i>
-          </button>
         </div>
         <div className="app__search-filters">
           <i className="fa fa-filter"></i> Filters:
