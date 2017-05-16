@@ -222,3 +222,22 @@
   display: inline-block;
   transform: translateY(-10px);
 }
+
+button[disabled]{
+  opacity: .7 !important
+}
+
+.app__booking-feedback {
+    background-color: white;
+    padding: 15px;
+    box-sizing: border-box;
+    color: var(--green);
+    font-size: 28px;
+    text-align: center;
+    min-height: 80px;
+    line-height: 1.6em;
+    margin-bottom: 40px
+}
+.app__booking-feedback .app__booking-next-step-btn--end{
+  transform:translateY(0px);
+}

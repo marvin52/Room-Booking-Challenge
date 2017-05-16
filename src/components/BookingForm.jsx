@@ -17,6 +17,8 @@ class ResultItem extends Component {
       atendeeName:'',
       atendeePhone:'',
       atendeeEmail:'',
+      feedbackMessage:'',
+      feedbackStatus:null,
       atendees:[
       ]
     }
@@ -34,6 +36,8 @@ class ResultItem extends Component {
       atendeeName:'',
       atendeePhone:'',
       atendeeEmail:'',
+      feedbackMessage:'',
+      feedbackStatus:null,
       atendees:[
       ]
     })
@@ -44,7 +48,7 @@ class ResultItem extends Component {
     temp.push({
       name: this.state.atendeeName,
       email: this.state.atendeeEmail,
-      number: this.state.atendeePhone
+      number: this.state.atendeePhone.replace(/\D/g, '')
     })
     this.setState({atendees: temp}, ()=>{
       this.setState({
@@ -98,16 +102,27 @@ class ResultItem extends Component {
 
   nextStep(){
     switch(true){
-      case this.state.step == 'first':
+      case this.state.step == 'first' || this.state.step == 'third':
         this.setState({step: 'second'});
       break;
       case this.state.step == 'second':
         if(this.state.eventTitle.length > 0 &&
             this.state.description.length > 0 &&
-            parseInt(this.state.participants) > 0 ){
+            parseInt(this.state.participants) > 0 &&
+            this.state.atendees.length > 0){
           this.confirmBooking((e)=>{
-            console.log(e)
-            this.setState({step: 'third'});
+            let feedbackMessage = "Your booking is successfully done!", feedbackStatus = true
+            if(e.error){
+              feedbackMessage = e.error.text;
+              feedbackStatus = false;
+            }
+
+            this.setState({
+              step: 'third',
+              feedbackMessage,
+              feedbackStatus
+            });
+
           })
         }
       break;
@@ -275,7 +290,7 @@ class ResultItem extends Component {
           </div>
           <div className="app__booking-form-inputs app__booking-fields-participants">
             <div className="app__row">
-              <h1>Add atendees to send LightPasses</h1>
+              <h1>Add participants to send LightPasses</h1>
             </div>
             <div className="app__half-width">
               <h1>Name:</h1>
@@ -321,14 +336,26 @@ class ResultItem extends Component {
           </div>
           <div className="app__row"></div>
           <div className="app__booking-form-inputs">
-            <button onClick={this.nextStep.bind(this)} className="app__booking-next-step-btn" disabled={!isAvailable}>
+            <button
+              onClick={this.nextStep.bind(this)}
+              className="app__booking-next-step-btn"
+              disabled={this.state.eventTitle.length === 0 ||
+                this.state.description.length === 0 ||
+                parseInt(this.state.participants) === 0 ||
+                this.state.atendees.length === 0
+              }>
               Book
                <i className="fa fa-angle-double-right"></i>
             </button>
           </div>
         </div>
-        <div className={`app__booking-step--${this.state.step == 'third'? 'show':'hide'}`}>
-          <h1>Booking Done!</h1>
+        <div className={`app__booking-feedback app__booking-step--${this.state.step == 'third'? 'show':'hide'}`}>
+          <h1>{this.state.feedbackMessage}</h1>
+          <button
+            className="app__booking-next-step-btn app__booking-next-step-btn--end"
+            onClick={this.state.feedbackStatus? this.toggleBookView.bind(this) : this.nextStep.bind(this)}>
+            {this.state.feedbackStatus ? 'Close': 'Go back'}
+          </button>
         </div>
       </div>
     );
